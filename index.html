@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection</title>
+</head>
+<body>
+    <h1>Fake News Detection</h1>
+    <div>
+        <h2><a id="searchHistoryBtn" href="/search-history">Search History</a></h2>
+    </div>
+    <form id="newsForm" action="/classify" method="post">
+        <label for="news_text">Enter News Text:</label><br>
+        <textarea id="news_text" name="news_text" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Classify">
+    </form>
+
+    <!-- Popup Message -->
+    <div id="popupMsg" style="display: none;">
+        <h2>Result</h2>
+        <p id="result"></p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#newsForm').submit(function(e){
+                e.preventDefault(); // Prevent default form submission
+                var formData = $(this).serialize(); // Serialize form data
+                // Perform AJAX POST request
+                $.ajax({
+                    type: 'POST',
+                    url: '/classify', // Flask route
+                    data: formData,
+                    success: function(response){
+                        // Display success popup message
+                        $('#result').text(response.result);
+                        $('#popupMsg').show();
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+        function closePopup() {
+            $('#popupMsg').hide();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search History</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Search History</h1>
+    <div>
+        <h2><a id="HomeBtn" href="/">Home</a></h2>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody id="textHistoryTableBody">
+            <!-- Rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function(){
+            // Make AJAX request to fetch search history from Flask
+            $.ajax({
+                type: 'GET',
+                url: '/search-history',
+                success: function(response){
+                    // Check if response is an array
+                    if (Array.isArray(response)) {
+                        // Iterate over the retrieved data and append rows to the table
+                        response.forEach(function(item) {
+                            var newRow = '<tr><td id="textCell">' + item.text + '</td><td id="resultCell">' + item.result + '</td></tr>';
+                            $('#textHistoryTableBody').append(newRow);
+                        });
+                        // Show the table body
+                        $('#textHistoryTableBody').show();
+                    } else {
+                        console.log("Response is not an array:", response);
+                    }
+                },
+                error: function(error){
+                    console.log("Error fetching search history:", error);
+                }
+            });
+        });
+        
+    </script>
+
+</body>
+</html>
