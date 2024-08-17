@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mt-5">Access Restricted</h1>
+    <p class="lead">You need to subscribe to access this content.</p>
+
+    <!-- Payment Form -->
+    <form method="post" action="{{ url_for('main.paywall') }}">
+        <div class="mt-3">
+            <p>To proceed with the payment, click the button below:</p>
+            <button type="submit" class="btn btn-primary">Pay Now with Khalti</button>
+        </div>
+    </form>
+
+    <p class="mt-3">
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Home</a>
+    </p>
+</div>
+{% endblock %}

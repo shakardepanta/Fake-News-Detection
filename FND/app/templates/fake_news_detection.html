@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "macros.html" import quick_form with context %}
+
+{% block content %}
+    <h1 class="text-center p-4">Fake News Detection</h1>
+
+    <!-- Tabs for selecting input type -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="text-tab" data-bs-toggle="tab" href="#text-content" role="tab" aria-controls="text-content" aria-selected="true">Text</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="link-tab" data-bs-toggle="tab" href="#link-content" role="tab" aria-controls="link-content" aria-selected="false">Link</a>
+        </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content mt-3" id="myTabContent">
+        <!-- Text input tab -->
+        <div class="tab-pane fade show active" id="text-content" role="tabpanel" aria-labelledby="text-tab">
+            <form method="post" action="{{ url_for('main.fake_news_detection') }}">
+                <div class="mb-3">
+                    <label for="news_text" class="form-label">Enter the text to analyze:</label>
+                    <textarea class="form-control" id="news_text" name="news_text" rows="10"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze</button>
+            </form>
+        </div>
+
+        <!-- Link input tab -->
+        <div class="tab-pane fade" id="link-content" role="tabpanel" aria-labelledby="link-tab">
+            <form method="post" action="{{ url_for('main.fake_news_detection') }}">
+                <div class="mb-3">
+                    <label for="news_link" class="form-label">Enter the link to analyze:</label>
+                    <input type="url" class="form-control" id="news_link" name="news_link" placeholder="https://example.com">
+                    <small class="form-text text-muted">This can only classify links.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze</button>
+            </form>
+        </div>
+    </div>
+
+    {% if result %}
+        <div class="mt-3">
+            <h2>Result: {{ result }}</h2>
+        </div>
+    {% endif %}
+{% endblock %}
